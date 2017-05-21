@@ -50,7 +50,6 @@ server.route({
   method: 'GET',
   path: '/spotifyOauthCallback',
   handler: function (req, reply) {
-    console.log(req.headers);
     if (!req.query.state) {
       // We didn't send state, our bad. This should've been caught earlier.
       reply(Boom.badImplementation("Server Error 500"));
@@ -86,6 +85,7 @@ server.route({
   method: 'GET',
   path:'/login',
   handler: function (req, reply) {
+    console.log(req.headers);
     if (req.query.client_id &&
       process.env.CLIENT_ID === req.query.client_id) {
         const scopesAreValid = !req.query.scope || req.query.scope.split(',')
