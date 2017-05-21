@@ -46,6 +46,10 @@ server.connection({
   port: process.env.PORT || 8000
 });
 
+const resolveRedirectUri = (req) => {
+  return `${req.headers['x-forwarded-proto'] || req.connection.info.protocol}://${req.headers['host'] || req.info.host}/spotifyOauthCallback`
+}
+
 server.route({
   method: 'GET',
   path: '/spotifyOauthCallback',
@@ -61,7 +65,7 @@ server.route({
         body: toQueryString({
           "grant_type": "authorization_code",
           "code": req.query.code,
-          "redirect_uri": `${req.connection.info.protocol}://${req.info.host}/spotifyOauthCallback`
+          "redirect_uri": encodeURI(resolveRedirectUri(req))
         }),
         headers: {
           "Authorization": `Basic ${base64EncodedIdSecretPair}`,
@@ -85,14 +89,13 @@ server.route({
   method: 'GET',
   path:'/login',
   handler: function (req, reply) {
-    console.log(req.headers);
     if (req.query.client_id &&
       process.env.CLIENT_ID === req.query.client_id) {
         const scopesAreValid = !req.query.scope || req.query.scope.split(',')
           .map(scope => validScopes.indexOf(scope) > -1)
           .reduce((acc, el) => acc && el, true)
         if (scopesAreValid) {
-          const redirectUri = encodeURI(`${req.connection.info.protocol}://${req.info.host}/spotifyOauthCallback`);
+          const redirectUri = encodeURI(resolveRedirectUri(req));
           return (params => reply.redirect(`${spotifyAuthUrl}?${toQueryString(params)}`))(
             Object.assign({
               "client_id": req.query.client_id,
