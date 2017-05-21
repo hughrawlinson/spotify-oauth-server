@@ -1,0 +1,21 @@
+{
+  "name": "Spotify OAuth Server",
+  "description": "A server for Spotify OAuth Flows that require client secret",
+  "repository": "https://github.com/hughrawlinson/spotify-oauth-server",
+  "keywords": ["spotify", "oauth"],
+  "env": {
+    "CLIENT_ID": {
+      "description": "Your Spotify Client ID. Register on developer.spotify.com",
+      "generator": "secret"
+    },
+    "CLIENT_SECRET": {
+      "description": "Your Spotify Client Secret. Register on developer.spotify.com",
+      "value": "secret"
+    }
+  },
+  {
+    "addons": [
+      "heroku-redis"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "spotify-oauth-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type" : "git" ,
+    "url" : "https://github.com/hughrawlinson/spotify-oauth-server.git"
+  }
+  "keywords": [],
+  "author": "Hugh Rawlinson <hughr2005@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "boom": "^4.3.1",
+    "hapi": "^16.1.1",
+    "request": "^2.81.0"
+  }
+}
