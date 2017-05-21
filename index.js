@@ -6,7 +6,7 @@ const request = require('request');
 const process = require('process');
 
 const redis = require("redis")
-const redisClient = redis.createClient();
+const redisClient = redis.createClient(process.env.REDIS_URI);
 
 const clientIdSecretPair = `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`;
 const base64EncodedIdSecretPair = new Buffer(clientIdSecretPair).toString('base64');
