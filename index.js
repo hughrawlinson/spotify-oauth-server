@@ -50,6 +50,7 @@ server.route({
   method: 'GET',
   path: '/spotifyOauthCallback',
   handler: function (req, reply) {
+    console.log(req.headers);
     if (!req.query.state) {
       // We didn't send state, our bad. This should've been caught earlier.
       reply(Boom.badImplementation("Server Error 500"));
