@@ -61,7 +61,7 @@ server.route({
         body: toQueryString({
           "grant_type": "authorization_code",
           "code": req.query.code,
-          "redirect_uri": `${req.server.info.uri}/spotifyOauthCallback`
+          "redirect_uri": `${req.connection.info.protocol}://${req.info.host}/spotifyOauthCallback`
         }),
         headers: {
           "Authorization": `Basic ${base64EncodedIdSecretPair}`,
@@ -72,7 +72,6 @@ server.route({
           reply(Boom.badImplementation("Failed request to Spotify Accounts"));
         }
         const jsonResponse = JSON.parse(body);
-        console.log(jsonResponse);
         reply('x').redirect(`${openRedirects[req.query.state]}#${toQueryString(jsonResponse)}`);
       });
     } else {
@@ -92,7 +91,7 @@ server.route({
           .map(scope => validScopes.indexOf(scope) > -1)
           .reduce((acc, el) => acc && el, true)
         if (scopesAreValid) {
-          const redirectUri = encodeURI(`${req.server.info.uri}/spotifyOauthCallback`);
+          const redirectUri = encodeURI(`${req.connection.info.protocol}://${req.info.host}/spotifyOauthCallback`);
           return (params => reply.redirect(`${spotifyAuthUrl}?${toQueryString(params)}`))(
             Object.assign({
               "client_id": req.query.client_id,
