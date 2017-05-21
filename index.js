@@ -46,6 +46,7 @@ server.connection({
 });
 
 const resolveRedirectUri = (req) => {
+  console.log(req.headers);
   return `${req.headers['x-forwarded-proto'] || req.connection.info.protocol}://${req.headers['host'] || req.info.host}/spotifyOauthCallback`
 }
 
