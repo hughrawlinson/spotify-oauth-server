@@ -95,7 +95,9 @@ server.route({
     if (req.query.client_id &&
       process.env.CLIENT_ID === req.query.client_id) {
         const scopesAreValid = !req.query.scope || req.query.scope
+          .split('')
           .map(e => e == '+' && "%20")
+          .join('')
           .split('%20')
           .map(scope => validScopes.indexOf(scope) > -1)
           .reduce((acc, el) => acc && el, true)
