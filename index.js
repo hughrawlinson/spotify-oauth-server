@@ -96,11 +96,12 @@ server.route({
       process.env.CLIENT_ID === req.query.client_id) {
         const scopesAreValid = !req.query.scope || req.query.scope
           .split('')
-          .map(e => e == '+' && "%20")
+          .map(e => (e == '+' || e == ' ') && "%20" || e)
           .join('')
           .split('%20')
           .map(scope => validScopes.indexOf(scope) > -1)
           .reduce((acc, el) => acc && el, true)
+
         if (scopesAreValid) {
           if (req.query.redirect_uri) {
             const appRedirectUri = req.query.redirect_uri;
